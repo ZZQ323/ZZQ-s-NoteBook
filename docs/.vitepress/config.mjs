@@ -5,7 +5,7 @@ import markdownItIns from 'markdown-it-ins'
 import markdownItSub from 'markdown-it-sub'
 import markdownItSup from 'markdown-it-sup'
 import colorTextPlugin from './plugins/markdown-it-color.js'
-
+import { withMermaid } from 'vitepress-plugin-mermaid'
 
 export default defineConfig({
     // 网站标题
@@ -104,6 +104,15 @@ export default defineConfig({
                         { text: '幂等性', link: '/algorithm/number-theory/linear' },
                         { text: '', link: '/algorithm/number-theory/interval' },
                         { text: '', link: '/algorithm/number-theory/tree' },
+                    ]
+                },
+                {
+                    text: '图论',
+                    collapsed: false,  // 默认展开
+                    items: [
+                        { text: '图论基础', link: '/algorithm/graph-theory/graph' },
+                        { text: '并查集', link: '/algorithm/graph-theory/disjoint-set' },
+                        { text: '', link: '' },
                     ]
                 },
                 {
@@ -249,16 +258,21 @@ export default defineConfig({
         socialLinks: [
             { icon: 'github', link: 'https://github.com/ZZQ323' }
         ],
-
         // 页脚（可选）
         footer: {
             message: 'Released under the MIT License.',
             copyright: 'Copyright © 2024-present'
         },
-
         // 搜索功能（可选）
         search: {
             provider: 'local'
-        }
-    }
+        },
+    },
+    
+    mermaid: {
+        // 可选：mermaid 自身的配置，比如主题
+    },
+    mermaidPlugin: {
+        class: 'mermaid my-class', // 给渲染出来的容器加 class，方便自定义样式
+    },
 })

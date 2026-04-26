@@ -24,3 +24,26 @@ ins {
     color: #3b82f6;
     font-weight: 600;
 }
+
+.zzq-center{
+    margin: auto 0;
+}
+
+/********************* mermaid样式文件 ************************/
+
+.mermaid-figure {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.mermaid-figure .mermaid {
+    display: flex;
+    justify-content: center;
+}
+
+.mermaid-figure .caption {
+    font-size: 0.9rem;
+    color: var(--vp-c-text-2);
+    margin-top: 0.5rem;
+    font-style: italic;
+}
