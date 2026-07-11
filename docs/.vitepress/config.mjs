@@ -44,6 +44,10 @@ export default withMermaid({
     ignoreDeadLinks: true,
     // 主题配置
     themeConfig: {
+        outline: {
+            level: [2, 4], // 显示 h2 到 h4
+            label: '目录', // 可选,自定义标题文字,默认是 "On this page"
+        },
         // 顶部导航栏（大分类）
         nav: [
             { text: '首页', link: '/' },
@@ -124,7 +128,7 @@ export default withMermaid({
                         { text: '', link: '' },
                     ]
                 },
-                
+
             ],
 
             // 前端栏目的侧边栏
@@ -270,7 +274,7 @@ export default withMermaid({
             provider: 'local'
         },
     },
-    
+
     mermaid: {
         // 可选：mermaid 自身的配置，比如主题
     },
