@@ -26,7 +26,8 @@ ins {
 }
 
 .zzq-center{
-    margin: auto 0;
+    display: flex;
+    justify-content: center;
 }
 
 /********************* mermaid样式文件 ************************/

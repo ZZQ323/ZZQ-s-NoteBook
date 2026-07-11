@@ -7,7 +7,7 @@ import markdownItSup from 'markdown-it-sup'
 import colorTextPlugin from './plugins/markdown-it-color.js'
 import { withMermaid } from 'vitepress-plugin-mermaid'
 
-export default defineConfig({
+export default withMermaid({
     // 网站标题
     title: 'zzq323 的技术博客',
     base: '/blog/',
@@ -67,6 +67,15 @@ export default defineConfig({
                     ]
                 },
                 {
+                    text: '基础',
+                    collapsed: false,
+                    items: [
+                        { text: '懒人语法块', link: '/algorithm/basics/usually' },
+                        { text: '排序算法', link: '/algorithm/basics/sorting' },
+                        { text: '双指针', link: '/algorithm/basics/two-pointer' },
+                    ]
+                },
+                {
                     text: '数据结构',
                     collapsed: false,  // 默认展开
                     items: [
@@ -115,14 +124,7 @@ export default defineConfig({
                         { text: '', link: '' },
                     ]
                 },
-                {
-                    text: '其他',
-                    collapsed: false,
-                    items: [
-                        { text: '排序算法', link: '/algorithm/others/sorting' },
-                        // { text: '', link: '/algorithm/sorting/merge-sort' },
-                    ]
-                }
+                
             ],
 
             // 前端栏目的侧边栏
