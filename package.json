@@ -21,13 +21,14 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
+    "markdown-it-attrs": "^5.0.0",
+    "markdown-it-mark": "^4.0.0",
     "mermaid": "^11.16.0",
     "vitepress": "^1.6.4",
     "vitepress-plugin-mermaid": "^2.0.17"
   },
   "dependencies": {
     "markdown-it-ins": "^4.0.0",
-    "markdown-it-mark": "^4.0.0",
     "markdown-it-mathjax3": "^4.3.2",
     "markdown-it-sub": "^2.0.0",
     "markdown-it-sup": "^2.0.0"

@@ -1,8 +1,12 @@
 /* 黄色高亮 */
 mark {
-    background-color: #fef08a;
-    padding: 2px 4px;
-    border-radius: 3px;
+    background-color: #876c02;
+    color: inherit;
+    font-family:Arial, Helvetica, sans-serif;
+    padding: 2px;
+    border-radius: 2px;
+    font-size: medium;
+    font-weight: bolder;
 }
 
 /* 绿色下划线 */
@@ -25,26 +29,10 @@ ins {
     font-weight: 600;
 }
 
+/* 自定义快速 */
+
 .zzq-center{
     display: flex;
     justify-content: center;
 }
 
-/********************* mermaid样式文件 ************************/
-
-.mermaid-figure {
-    text-align: center;
-    margin: 2rem 0;
-}
-
-.mermaid-figure .mermaid {
-    display: flex;
-    justify-content: center;
-}
-
-.mermaid-figure .caption {
-    font-size: 0.9rem;
-    color: var(--vp-c-text-2);
-    margin-top: 0.5rem;
-    font-style: italic;
-}

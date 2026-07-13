@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitepress'
 import mathjax3 from 'markdown-it-mathjax3'
+import markdownItAttrs from 'markdown-it-attrs'
 import markdownItMark from 'markdown-it-mark'
 import markdownItIns from 'markdown-it-ins'
 import markdownItSub from 'markdown-it-sub'
@@ -14,6 +15,7 @@ export default withMermaid({
     markdown: {
         config: (md) => {
             md.use(mathjax3)
+            md.use(markdownItAttrs)
             md.use(markdownItMark)  // ==高亮==
             md.use(markdownItIns)   // ++下划线++
             md.use(markdownItSub)   // ~下标~
@@ -76,6 +78,7 @@ export default withMermaid({
                     items: [
                         { text: '懒人语法块', link: '/algorithm/basics/usually' },
                         { text: '排序算法', link: '/algorithm/basics/sorting' },
+                        { text: '分块', link: '/algorithm/basics/blocking' },
                         { text: '双指针', link: '/algorithm/basics/two-pointer' },
                     ]
                 },

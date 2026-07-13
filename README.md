@@ -67,9 +67,10 @@ export default withMermaid({
 ```
 
 `markdown-it-mark` 常见用法： 
-```vitepress
-~~这是被划掉的内容~~,==这是新的重点==
-```
+- `==高亮==`
+- `++下划线++`
+- `~下标~`
+- `^上标^`
 
 `markdown-it-attrs` 常见用法： 
 
@@ -79,15 +80,14 @@ export default withMermaid({
 // 给图片加宽高/样式
 ![描述](./image.png){width=300px}
 ![描述](./image.png){.rounded-shadow width=400px}
-
 这是一段说明文字。{.small-gray}
-
-
+// 还可以给代码块上样式
 \```js {.my-code-style}
 console.log('hello')
 \```
-
 ```
+
+行内的 {.class} 语法必须紧跟在一个"内联元素"后面(比如 **加粗**、`代码`、[链接]() 这些),不能直接加在一段普通文字后面
 
 
 ### 画图工具
