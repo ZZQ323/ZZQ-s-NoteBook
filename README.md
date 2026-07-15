@@ -141,5 +141,5 @@ export default withMermaid({
 
   ![作者使用演示截图](asset/README.md/image-manager-demo1.png)
 
-
+  Bilibili 上有完整的视频，[点击这里](https://www.bilibili.com/video/BV15SQaYnEeJ/)
 
