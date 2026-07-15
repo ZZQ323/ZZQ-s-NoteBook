@@ -74,7 +74,7 @@
 算法竞赛必备的数论知识
 
 - [素数与筛法](/algorithm/number-theory/prime) - Eratosthenes 筛法
-- [最大公约数](/algorithm/number-theory/gcd) - 欧几里得算法
+- [模运算推论](/algorithm/number-theory/gcd) - 欧几里得算法
 - [模运算与快速幂](/algorithm/number-theory/modular) - 大数运算技巧
 :::
 

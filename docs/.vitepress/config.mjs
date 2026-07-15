@@ -118,9 +118,9 @@ export default withMermaid({
                     text: '数论',
                     collapsed: false,  // 默认展开
                     items: [
-                        { text: '幂等性', link: '/algorithm/number-theory/linear' },
-                        { text: '', link: '/algorithm/number-theory/interval' },
-                        { text: '', link: '/algorithm/number-theory/tree' },
+                        { text: '素数推论', link: '/algorithm/number-theory/prime' },
+                        { text: '模运算推论', link: '/algorithm/number-theory/gcd' },
+                        { text: '模运算与快速幂', link: '/algorithm/number-theory/modular' },
                     ]
                 },
                 {

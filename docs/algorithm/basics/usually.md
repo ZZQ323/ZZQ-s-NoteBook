@@ -250,4 +250,26 @@ for (int i = 1; i <= nmax; i++) {
 java的集合中取出的东西会被默认为 Object （类型擦除），然后再强制类型转换为目标类型
 而 int 并不继承 Object，所以只有使用包装类型编译器才能正常运作，否则就只能使用 fastutil 或 Eclipse Collections 去直接操作底层类型了。
 
+### 按位处理
+
+
+
+```java
+boolean isCross(BitSet subset1,BitSet subset2)
+{
+    // 检查交集：按位与
+    BitSet intersection = (BitSet) subset1.clone();
+    intersection.and(subset2);
+    return !intersection.isEmpty();
+}
+BitSet toBitSet(List<Integer> ls)
+{
+    BitSet ret = new BitSet(210);
+    for(int v:ls){
+        ret.set(v);
+    }
+    return ret;
+}
+
+```
 

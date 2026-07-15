@@ -2,7 +2,8 @@
 
 学习笔记。
 
-启动方式 …… 不会看配置的么？
+启动方式 …… Vue项目启动基本看 `package.json` 的配置.
+
 
 ## 题目模板
 
@@ -110,5 +111,9 @@ export default withMermaid({
 ```
 
 注意：withMermaid 返回的类型和 defineConfig 不完全一致（TS 报错的话用 defineConfigWithTheme 或者直接 // @ts-ignore 也行,不影响构建）。
+
+## 图片管理
+
+安装插件：Paste Image(mushan.vscode-paste-image)，Image Manager
 
 
