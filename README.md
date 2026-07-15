@@ -43,8 +43,6 @@ vitepress 自带的快速标记
 ```
 
 
-
-
 ## 安装包
 
 ### 快速样式
@@ -115,5 +113,33 @@ export default withMermaid({
 ## 图片管理
 
 安装插件：Paste Image(mushan.vscode-paste-image)，Image Manager
+
+1. 路径自定义 + 自动建目录(这部分很成熟)
+  `Paste Image` 插件就能做到！
+
+  打开settings.json
+  ```json
+  {
+    "MarkdownPaste.path": "${workspaceRoot}/asset/${relativeFileDirname}/${fileBasename}",
+  }
+  ```
+
+  这样粘贴图片时,会自动在 `docs/assets/文章名/` 下建目录存图,文件夹不存在会自动创建。
+  Paste Image 插件配置项中，Path设置图片存放的路径，用`${projectRoot}/assets/${currentFileDir}/{currentFileNameWithoutExt}` 含义是当前文件夹/assets/无后缀名的当前文件名。
+
+  使用快捷键 `Ctrl+Alt+V` 即可将图片存放到相应路径的文件夹中，文件夹不存在会自动创建。
+
+  ![ Paste Image 配置展示](asset/README.md/paste-image-demo1.png)
+
+2. 重命名同步 + 孤立图片清理
+
+  这两个功能更接近"资源管理器"性质，推荐 Image Manager。它专门做这件事：
+  - 可视化管理项目里所有图片(网格预览)
+  - 改文件名会自动同步更新所有引用它的 md/代码文件中的路径
+  - 能检测"未被任何文件引用"的孤立图片,手动或批量清理
+  - 支持压缩、格式转换等附加功能
+
+  ![作者使用演示截图](asset/README.md/image-manager-demo1.png)
+
 
 
