@@ -1,6 +1,9 @@
-<!-- #数论长脑子笔记 -->
+# 数论长脑子笔记
 
-## 整数除法与余数
+> 什么？你问我为什么个页面写这么多推导？  
+> 那你得问问给我上信息学的老师，为什么tmd3节课就讲到勒让德符号 …… 
+
+## 整数除法与余数{.color-orange}
 
 ### 亿点术语
 
@@ -10,27 +13,26 @@
 
 这个时候，我们说：
 
-- b可以被a整除
-- b是a的倍数
-- a是b的约数、因数
-- 除了1以及自身，其他的约数都叫做真约数，$\pm 1$和$(\pm 自身)$被称作平凡约数。举个例子：3有$\pm 1$和$(\pm 3)$作为平凡约数，而16有2、4、8作为真约数。
+- $b$ 可以被 $a$ 整除
+- $b$ 是 $a$ 的倍数
+- $a$ 是 $b$ 的约数、因数
+- **除了$1$以及自身**{.color-blue}，其他的约数都叫做真约数，$\pm 1$和$(\pm 自身)$被称作平凡约数。举个例子：3有$\pm 1$和$(\pm 3)$作为平凡约数，而16有2、4、8作为真约数。
 
 其中，整除有一些性质：
-
 - $b=qa+c \land a|b\Rightarrow a|c$
 - $a|b\Leftrightarrow ma|mb\;,\;|a|\leq b\;,\;-a|b\;,\;a|-b$
 - $a|b\land a|c\Rightarrow a|(xb+yc)$
 - $a|b\land b|a\Rightarrow b=\pm a$
 
-对于无法整除的数字a、b，有带余除法式子$b=qa+r$
+对于无法整除的数字$a$、$b$，有带余除法式子$b=qa+r$
 
-其中，r被称作余数，$0\leq r < a$。余数可正可负，但是余数的正负是根据被除数决定的，一般都会令余数为正，但是有时会可能会讨论到负余数的情况。
+其中，$r$被称作余数，$0\leq r < a$。余数可正可负，但是余数的正负是根据被除数决定的，一般都会令余数为正，但是有时会可能会讨论到负余数的情况。
 
-比如：$11\%7=4$、$-11\%7=-4$、$-11\%-7=-4$
+比如：$11\%7=4$、$-11\%7=-4$、$(-11)\%(-7)=-4$
 
-不难得知：相邻的整数a个整数被a除了之后，一定会恰好取完上述式子中r的所有情况（也即$r=0,1,..,a-1$），这里面“r的所有情况”可以组成： “模a的剩余系” 。
+不难得知：**相邻的a个整数依次被a除了之后，一定会恰好取完上述式子中r的所有情况**{.color-blue}（也即$r=0,1,..,a-1$），这里面“r的所有情况”可以组成： “模a的剩余系” 。
 
-## <a id="2" href="#home">数字的基底</a>
+## 数字的基底{.color-orange}
 
 ### 素数（质数）与互素（互质）
 
@@ -80,23 +82,32 @@ $29=2^{0}\times 3^{0}\dots29^{1}\dots$
 那么，我们就可以求证LCM的计算公式了。
 
 $$
-a,b\in Z，由代数基本定理：\\
+由代数基本定理：
+
 \left\{
-    \begin{align*}
-    a=p_1^{c_1}p_2^{c_2}...p_n^{c_n}\\
-    b=p_1^{f_1}p_2^{f_2}...p_n^{f_n}
-    \end{align*}
-\right.\\
-\Rightarrow\left\{
-    \begin{align*}
-    gcd(a,b)&=p_1^{\min(c_1,f_1)}p_2^{\min(c_2,f_2)}...p_n^{\min(c_n,f_n)}\\
-    lcm(a,b)&=p_1^{\max(c_1,f_1)}p_2^{\max(c_2,f_2)}...p_n^{\max(c_n,f_n)}\\
-    \end{align*}
-\right.\\
-\Rightarrow gcd(a,b)lcm(a,b)=ab
+  \begin{aligned}
+    a &= p_1^{c_1} p_2^{c_2} \cdots p_n^{c_n} \\
+    b &= p_1^{f_1} p_2^{f_2} \cdots p_n^{f_n}
+  \end{aligned}
+\right.
+
+
+\\ \Rightarrow 
+\left\{
+  \begin{aligned}
+    \gcd(a,b) &= p_1^{\min(c_1,f_1)} p_2^{\min(c_2,f_2)} \cdots p_n^{\min(c_n,f_n)} \\
+    \operatorname{lcm}(a,b) &= p_1^{\max(c_1,f_1)} p_2^{\max(c_2,f_2)} \cdots p_n^{\max(c_n,f_n)}
+  \end{aligned}
+\right.
+
+
+\\ \Rightarrow 
+
+\gcd(a,b) \cdot \operatorname{lcm}(a,b) = ab
+
 $$
 
-所以求lcm的时候，直接$lcm=\dfrac{ab}{gcd}$就行了。
+所以求$lcm$的时候，直接$lcm=\dfrac{ab}{gcd}$就行了。
 
 ### 一些性质
 
@@ -104,6 +115,7 @@ $$
 理解上用代数基本定理很好理解：gcd有的素数因子lcm都有，gcd没有的lcm也有，所以gcd里面是不存在lcm没有的素数因子的，gcd也就一定能整除lcm。
 
 这个性质可用于hdu4497。
+![](../../../asset/docs/algorithm/number-theory/brain-surgen.md/hdu4497.png)
 
 而单对于GCD来说，就是一些公式上的性质：
 
@@ -198,7 +210,7 @@ $$
 \end{align*}
 $$
 
-## <a id="3" href="#home">GCD从连除讨论到直接讨论</a>
+## {.color-orange}
 
 ### 欧几里得算法
 
@@ -288,7 +300,7 @@ $$
 
 省流来说，这里就是把a、b用其他的a、b函数来替代，从而达到一个类似 “向量换底表示” 的效果。
 
-<img title="" src="image.png" alt="向量的分解" style="border:2px black dotted;" width="388" data-align="center">
+![向量的分解](../../../asset/docs/algorithm/number-theory/brain-surgen.md/image.png)
 
 ### 丢番图问题
 
@@ -300,7 +312,7 @@ $$
 - 多元线性丢番图：$a_{1}x_{1}+a_{2}x_{2}+a_{3}x_{3}+\cdots+a_{n-1}x_{n-1}+a_{n}x_{n}=c$
 - 高次丢番图：$x^{n}+y^{n}=z^{n}$
   - 勾股定理：$x^{2}+y^{2}=z^{2}$
-  - 大费马定理：$x^{n}+y^{n}=z^{n}\quad $when $n>2$ the equation is invalid.
+  - 大费马定理：$x^{n}+y^{n}=z^{n}\quad$ when $n>2$ the equation is invalid.
   - Pell方程（一个双曲线）：$x^{2}-Dy^{2}=1$
 - 指数丢番图：$a^{x}+b^{y}=c^{z}$
 
@@ -337,7 +349,9 @@ $$
 
 上面的说明对应下面的图解 —— 为什么n前面是那样子系数呢？
 
-<img src="images/二阶丢番图.png" 
+
+
+<img src="../../../asset/docs/algorithm/number-theory/brain-surgen.md/二阶丢番图.png" 
      alt="二阶丢番图"
      style="display:block; margin:0 auto; width:50vw;" />
 
@@ -451,7 +465,7 @@ $$
 
 111
 
-## 从模下线性等式到模下线性方程组
+## 从模下线性等式到模下线性方程组{.color-orange}
 
 ### 同余与同余的性质
 
@@ -536,15 +550,15 @@ $[4]_5=\{\dots,-11,-6,-1,4,9,14,\dots\}$
 
 比如说下面这张图中：
 
-<img title="" src="images/image-2.png" alt="mod 7 体系" style="display:block; margin:0 auto; width:50vw;" width="466" data-align="center">
+<img title="" src="../../../asset/docs/algorithm/number-theory/brain-surgen.md/image-2.png" alt="mod 7 体系" style="display:block; margin:0 auto; width:50vw;" width="466" data-align="center">
 
 你所能看到的部分就是同余类，每一种颜色代表一种类，但具体来说，你想取哪一个数字作为这一条颜色的代表元 —— 那就随便。
 
 比如下面两种都是可行的：
 
 <div style="display:flex;justify-content:space-around;" >
-    <img src="images/image-3.png" alt="mod 7 剩余系的取法1" style="width:45vw;" />
-    <img src="images/image-4.png" alt="mod 7 剩余系的取法1" style="width:45vw;" />
+    <img src="../../../asset/docs/algorithm/number-theory/brain-surgen.md/image-3.png" alt="mod 7 剩余系的取法1" style="width:45vw;" />
+    <img src="../../../asset/docs/algorithm/number-theory/brain-surgen.md/image-4.png" alt="mod 7 剩余系的取法1" style="width:45vw;" />
 </div>
 
 这对于其他情况都是同理的：
@@ -563,7 +577,7 @@ $$
 
 当然还有其他一些花里胡哨的剩余系：
 
-<img title="" src="images/image-1.png" alt="其他特殊的特殊的剩余系" style="display:block; margin:0 auto; width:50vw;" width="352" data-align="center">
+<img title="" src="../../../asset/docs/algorithm/number-theory/brain-surgen.md/image-1.png" alt="其他特殊的特殊的剩余系" style="display:block; margin:0 auto; width:50vw;" width="352" data-align="center">
 
 **既约剩余系**：在剩余系里面挑出与模数m互质的代表元r，然后每个满足$(x,m)=1$的x，都能找到代表元r。
 值得注意的是，从剩余系得到既约剩余系剩余系统的时候，我们还需要去掉0，因为$(x,0)=(x,x)=x\neq 0$。
@@ -621,7 +635,7 @@ $$
 
 因为理论中 $aa_i+b$ 还是 mod m 体系内的，所以$m$个不重复的 $aa_i+b$ 自然覆盖了所有的取值情况 —— 也就是构成了新的剩余系。
 
-<img title="" src="images/image-5.png" alt="一个剩余系经过线性运算回到同一个剩余系的图" style="display:block; margin:0 auto; width:50vw;" width="437" data-align="center">
+<img title="" src="../../../asset/docs/algorithm/number-theory/brain-surgen.md/image-5.png" alt="一个剩余系经过线性运算回到同一个剩余系的图" style="display:block; margin:0 auto; width:50vw;" width="437" data-align="center">
 
 ---
 
@@ -663,7 +677,7 @@ $$
 
 <!-- ![alt text](image-6.png) -->
 
-<img src="images/image-6.png" alt="剩余系定理4最后一步的第二种方法" style="display:block; margin:0 auto; width:70vw;"/>
+<img src="../../../asset/docs/algorithm/number-theory/brain-surgen.md/image-6.png" alt="剩余系定理4最后一步的第二种方法" style="display:block; margin:0 auto; width:70vw;"/>
 
 ### 剩余系的复合2
 
@@ -959,7 +973,7 @@ $$
 
 由此也德政了。
 
-## 模下线性等式常用定理
+## 模下线性等式常用定理{.color-orange}
 
 ### 威尔逊定理
 
@@ -1259,7 +1273,7 @@ $$
 
 也就是说对于模幂序列： $a^{0},a^{1},...,a^{m-1}$  ，会存在$s$、$r$，使得 $a^0,...,a^r$ 互不相同，然后从$a^{r+1},...$，开始就每 $s$ 次循环一次。 
 
-<img title="" src="../images/2025-03-04-08-15-10-fermat.svg" alt="" data-align="center" width="158">
+<img title="" src="../../../asset/docs/algorithm/number-theory/brain-surgen.md/2025-03-04-08-15-10-fermat.svg" alt="" data-align="center" width="158">
 
 因为模m的情况下，整数幂是不会产生多于m个数的，所以整数的幂最晚比模数m大的时候就会开始重复（鸽巢原理or抽屉原理），但是有没有可能提前呢？不清楚 ——所以这里只是存在，但没说存在确定是多大。
 
@@ -1338,7 +1352,7 @@ $$
 
 先证明两个幂函的情况，然后归纳证明。
 
-## 模下幂等式
+## 模下幂等式{.color-orange}
 
 ### 模下幂的最小正周期序列
 
@@ -1398,7 +1412,7 @@ $$
 
 这个很好理解 —— 高中函数知识部分学过。
 
-<img title="" src="../images/2025-03-04-10-06-42-v2-cbcc712910f27cc1e67363c007ce4d35_1440w.webp" alt="" width="377" data-align="center">
+<img title="" src="../../../asset/docs/algorithm/number-theory/brain-surgen.md/2025-03-04-10-06-42-v2-cbcc712910f27cc1e67363c007ce4d35_1440w.webp" alt="" width="377" data-align="center">
 
 但是对于ab来说，$\delta_m(ab)$才是最小周期啊 ——由性质2：
 
@@ -1688,5 +1702,12 @@ $$
 
 
 ## Reference
+
+
+
+![](../../../asset/docs/algorithm/number-theory/brain-surgen.md/6.21.png)
+![](../../../asset/docs/algorithm/number-theory/brain-surgen.md/6.16.png)
+![](../../../asset/docs/algorithm/number-theory/brain-surgen.md/6.15.png)
+
 
 
