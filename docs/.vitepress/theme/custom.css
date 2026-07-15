@@ -11,10 +11,10 @@ mark {
 
 /* 绿色下划线 */
 ins {
-    background-color: #d1fae5;
-    text-decoration: none;
-    padding: 2px 4px;
-    border-radius: 3px;
+    /* background-color: #57cd90; */
+    padding: 2px;
+    text-decoration: solid rgb(60, 205, 60) underline;
+    text-decoration-thickness: 3px;
 }
 
 /* 红色文字 */

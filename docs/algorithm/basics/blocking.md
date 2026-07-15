@@ -129,3 +129,66 @@ class Solution {
 整个问题就转化成了：==把下标按"是否存在逆序对连接"分成若干连通块==，而每个连通块内所有下标的答案都等于块内的最大值。  
 
 如果是按照图的思想去模拟，那么肯定是没办法做出来的，但是如果按照数组分块的角度去考虑呢？
+数组分块的特点是“连续”，而从逆序对连接的规则来看，主要有两种情况：
+1. 一种是“森林”，也即前面的最大值都无法向后跳跃，从而获取不到最大值，比如`2 1 5 3 4`，形成一个2为根的树和5为根的树
+2. 一种则只是“树”，前面的可以向后跳跃，然后获得后面的最大值，比如 `2 3 1`
+3. 如果有多个最大值，那么**就会根据能不能连接得**{.color-blue}到一个树或者一篇森林，而这样的**树和森林都必然是连续**{.color-red}的；
+
+所以我们能思索得出，如果我们能比较任意点 $i$ 前面一片的最大值`prefixMax[i]`，以及点后面一片的最小值`suffixMin[i+1]`，并且满足`prefixMax[i]<suffixMin[i+1]`，那么**一定不能进行连接**{.color-red} —— 反之就用整个区间的 `prefixMax[i]` 对区间进行填充。
+
+```java
+class Solution {
+    int[] prefixMax;
+    int[] suffixMin;
+
+    public int[] maxValue(int[] nums) {
+
+        prefixMax = new int[nums.length];
+        Arrays.fill(prefixMax,0);
+        suffixMin = new int[nums.length];
+        Arrays.fill(suffixMin,Integer.MAX_VALUE);
+
+        int[] ret = new int[nums.length];
+
+        ret[0] = prefixMax[0] = nums[0];
+        for(int i = 1; i < nums.length; i++){
+            prefixMax[i] = Math.max(prefixMax[i-1], nums[i]);
+            ret[i] = nums[i];
+        }
+        suffixMin[nums.length-1] = nums[nums.length-1];
+        for(int i=nums.length-2; i>=0; i--){
+            suffixMin[i] =  Math.min(suffixMin[i+1], nums[i]);
+        }
+
+        int beg = 0;
+        for(int i=0; i<nums.length-1; i++){
+            if (prefixMax[i] <= suffixMin[i+1]) {
+                for(int j=beg; j<i+1; j++){
+                    ret[j] = prefixMax[i];
+                }
+                beg = i+1;
+            }
+        }
+        for(int i=beg; i<nums.length; i++){
+            ret[i] = Math.max(prefixMax[nums.length-1], nums[i]);
+        }
+
+        return ret;
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

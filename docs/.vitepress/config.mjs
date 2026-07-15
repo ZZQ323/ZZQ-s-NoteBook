@@ -80,6 +80,7 @@ export default withMermaid({
                         { text: '排序算法', link: '/algorithm/basics/sorting' },
                         { text: '分块', link: '/algorithm/basics/blocking' },
                         { text: '双指针', link: '/algorithm/basics/two-pointer' },
+                        { text: '搜素', link: '/algorithm/basics/searching' },
                     ]
                 },
                 {
@@ -131,7 +132,6 @@ export default withMermaid({
                         { text: '', link: '' },
                     ]
                 },
-
             ],
 
             // 前端栏目的侧边栏
