@@ -1,7 +1,5 @@
 # 理解 GCD，成为 GCD
 
-> 什么？你问我为什么个页面写这么多推导？  
-> 那你得问问给我上信息学的老师，为什么tmd3节课就讲到勒让德符号 …… 
 
 ## 整数除法与余数{.color-orange}
 
@@ -13,9 +11,8 @@
 
 这个时候，我们说：
 
-- $b$ 可以被 $a$ 整除
-- $b$ 是 $a$ 的倍数
-- $a$ 是 $b$ 的约数、因数
+- $b$ 可以被 $a$ 整除，所以 $b$ 是 $a$ 的倍数
+- 也因此，$a$ 是 $b$ 的约数、因数
 - **除了$1$以及自身**{.color-blue}，其他的约数都叫做真约数，$\pm 1$和$(\pm 自身)$被称作平凡约数。举个例子：3有$\pm 1$和$(\pm 3)$作为平凡约数，而16有2、4、8作为真约数。
 
 其中，整除有一些性质：
@@ -115,7 +112,7 @@ $$
 理解上用代数基本定理很好理解：gcd有的素数因子lcm都有，gcd没有的lcm也有，所以gcd里面是不存在lcm没有的素数因子的，gcd也就一定能整除lcm。
 
 这个性质可用于hdu4497。
-![](../../../asset/docs/algorithm/number-theory/brain-surgen.md/hdu4497.png)
+![](asset/docs/algorithm/number-theory/GCD-Equation.md/hdu4497.png)
 
 而单对于GCD来说，就是一些公式上的性质：
 
@@ -300,7 +297,7 @@ $$
 
 省流来说，这里就是把a、b用其他的a、b函数来替代，从而达到一个类似 “向量换底表示” 的效果。
 
-![向量的分解](../../../asset/docs/algorithm/number-theory/brain-surgen.md/image.png)
+![向量的分解](../../asset/docs/algorithm/number-theory/GCD-Equation.md/image.png)
 
 ### 丢番图问题
 
@@ -349,11 +346,8 @@ $$
 
 上面的说明对应下面的图解 —— 为什么n前面是那样子系数呢？
 
+![二阶丢番图](../../asset/docs/algorithm/number-theory/GCD-Equation.md/Second-orderDiffractionDiagram.png)
 
-
-<img src="../../../asset/docs/algorithm/number-theory/brain-surgen.md/二阶丢番图.png" 
-     alt="二阶丢番图"
-     style="display:block; margin:0 auto; width:50vw;" />
 
 ### 用欧几里得算法 求 丢番图特解
 
@@ -473,9 +467,9 @@ $$
 
 
 
-![](../../../asset/docs/algorithm/number-theory/brain-surgen.md/6.21.png)
-![](../../../asset/docs/algorithm/number-theory/brain-surgen.md/6.16.png)
-![](../../../asset/docs/algorithm/number-theory/brain-surgen.md/6.15.png)
+![](../../asset/docs/algorithm/number-theory/GCD-Equation.md/6.21.png)
+![](../../asset/docs/algorithm/number-theory/GCD-Equation.md/6.16.png)
+![](../../asset/docs/algorithm/number-theory/GCD-Equation.md/6.15.png)
 
 
 
