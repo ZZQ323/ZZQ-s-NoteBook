@@ -1,6 +1,5 @@
 # 理解 GCD，成为 GCD
 
-
 ## 整数除法与余数{.color-orange}
 
 ### 亿点术语
@@ -112,7 +111,7 @@ $$
 理解上用代数基本定理很好理解：gcd有的素数因子lcm都有，gcd没有的lcm也有，所以gcd里面是不存在lcm没有的素数因子的，gcd也就一定能整除lcm。
 
 这个性质可用于hdu4497。
-![](asset/docs/algorithm/number-theory/GCD-Equation.md/hdu4497.png)
+![](../../asset/docs/algorithm/number-theory/GCD-Equation.md/hdu4497.png)
 
 而单对于GCD来说，就是一些公式上的性质：
 

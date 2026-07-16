@@ -1,6 +1,6 @@
+# 同余方程
 
-
-## 从模下线性等式到模下线性方程组{.color-orange}
+## 线性同余等式与线性同余方程组{.color-orange}
 
 ### 同余与同余的性质
 
@@ -85,16 +85,14 @@ $[4]_5=\{\dots,-11,-6,-1,4,9,14,\dots\}$
 
 比如说下面这张图中：
 
-<img title="" src="../../../asset/docs/algorithm/number-theory/brain-surgen.md/image-2.png" alt="mod 7 体系" style="display:block; margin:0 auto; width:50vw;" width="466" data-align="center">
+![mod 7 体系](../../asset/docs/algorithm/number-theory/Modular-Equation.md/image-2.png)
 
 你所能看到的部分就是同余类，每一种颜色代表一种类，但具体来说，你想取哪一个数字作为这一条颜色的代表元 —— 那就随便。
 
 比如下面两种都是可行的：
 
-<div style="display:flex;justify-content:space-around;" >
-    <img src="../../../asset/docs/algorithm/number-theory/brain-surgen.md/image-3.png" alt="mod 7 剩余系的取法1" style="width:45vw;" />
-    <img src="../../../asset/docs/algorithm/number-theory/brain-surgen.md/image-4.png" alt="mod 7 剩余系的取法1" style="width:45vw;" />
-</div>
+<img src="../../asset/docs/algorithm/number-theory/Modular-Equation.md/image-3.png" alt="mod 7 剩余系的取法1" style="width:25vw;" />
+<img src="../../asset/docs/algorithm/number-theory/Modular-Equation.md/image-4.png" alt="mod 7 剩余系的取法1" style="width:25vw;" />
 
 这对于其他情况都是同理的：
 
@@ -112,7 +110,7 @@ $$
 
 当然还有其他一些花里胡哨的剩余系：
 
-<img title="" src="../../../asset/docs/algorithm/number-theory/brain-surgen.md/image-1.png" alt="其他特殊的特殊的剩余系" style="display:block; margin:0 auto; width:50vw;" width="352" data-align="center">
+<img title="" src="../../asset/docs/algorithm/number-theory/Modular-Equation.md/image-1.png" alt="其他特殊的特殊的剩余系" style="display:block; margin:0 auto; width:50vw;" width="352" data-align="center">
 
 **既约剩余系**：在剩余系里面挑出与模数m互质的代表元r，然后每个满足$(x,m)=1$的x，都能找到代表元r。
 值得注意的是，从剩余系得到既约剩余系剩余系统的时候，我们还需要去掉0，因为$(x,0)=(x,x)=x\neq 0$。
@@ -170,7 +168,7 @@ $$
 
 因为理论中 $aa_i+b$ 还是 mod m 体系内的，所以$m$个不重复的 $aa_i+b$ 自然覆盖了所有的取值情况 —— 也就是构成了新的剩余系。
 
-<img title="" src="../../../asset/docs/algorithm/number-theory/brain-surgen.md/image-5.png" alt="一个剩余系经过线性运算回到同一个剩余系的图" style="display:block; margin:0 auto; width:50vw;" width="437" data-align="center">
+<img title="" src="../../asset/docs/algorithm/number-theory/Modular-Equation.md/image-5.png" alt="一个剩余系经过线性运算回到同一个剩余系的图" style="display:block; margin:0 auto; width:50vw;" width="437" data-align="center">
 
 ---
 
@@ -212,7 +210,7 @@ $$
 
 <!-- ![alt text](image-6.png) -->
 
-<img src="../../../asset/docs/algorithm/number-theory/brain-surgen.md/image-6.png" alt="剩余系定理4最后一步的第二种方法" style="display:block; margin:0 auto; width:70vw;"/>
+<img src="../../asset/docs/algorithm/number-theory/Modular-Equation.md/image-6.png" alt="剩余系定理4最后一步的第二种方法" style="display:block; margin:0 auto; width:70vw;"/>
 
 ### 剩余系的复合2
 
@@ -508,7 +506,7 @@ $$
 
 由此也德政了。
 
-## 模下线性等式常用定理{.color-orange}
+## 线性同余等式常用定理{.color-orange}
 
 ### 威尔逊定理
 
@@ -808,7 +806,9 @@ $$
 
 也就是说对于模幂序列： $a^{0},a^{1},...,a^{m-1}$  ，会存在$s$、$r$，使得 $a^0,...,a^r$ 互不相同，然后从$a^{r+1},...$，开始就每 $s$ 次循环一次。 
 
-<img title="" src="../../../asset/docs/algorithm/number-theory/brain-surgen.md/2025-03-04-08-15-10-fermat.svg" alt="" data-align="center" width="158">
+<img title="" src="../../asset/docs/algorithm/number-theory/Modular-Equation.md/2025-03-04-08-15-10-fermat.svg" alt="" data-align="center" width="158">
+
+
 
 因为模m的情况下，整数幂是不会产生多于m个数的，所以整数的幂最晚比模数m大的时候就会开始重复（鸽巢原理or抽屉原理），但是有没有可能提前呢？不清楚 ——所以这里只是存在，但没说存在确定是多大。
 
@@ -887,7 +887,7 @@ $$
 
 先证明两个幂函的情况，然后归纳证明。
 
-## 模下幂等式{.color-orange}
+## 幂同余等式{.color-orange}
 
 ### 模下幂的最小正周期序列
 
@@ -947,7 +947,7 @@ $$
 
 这个很好理解 —— 高中函数知识部分学过。
 
-<img title="" src="../../../asset/docs/algorithm/number-theory/brain-surgen.md/2025-03-04-10-06-42-v2-cbcc712910f27cc1e67363c007ce4d35_1440w.webp" alt="" width="377" data-align="center">
+<img title="" src="../../asset/docs/algorithm/number-theory/Modular-Equation.md/2025-03-04-10-06-42-v2-cbcc712910f27cc1e67363c007ce4d35_1440w.webp" alt="" width="377" data-align="center">
 
 但是对于ab来说，$\delta_m(ab)$才是最小周期啊 ——由性质2：
 
@@ -1174,7 +1174,7 @@ $$
 
 
 
-### 模多项式的性质推论
+### 多项式同余等式性质推论
 
 #### 素数幂模
 
@@ -1233,3 +1233,5 @@ $$
 
 
 #### k次剩余
+
+

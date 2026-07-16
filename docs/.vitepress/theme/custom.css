@@ -36,3 +36,8 @@ ins {
     justify-content: center;
 }
 
+.picture-cen{
+    display:block; 
+    margin:0 auto; 
+    width:50vw;
+}
