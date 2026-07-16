@@ -73,6 +73,13 @@ export default withMermaid({
                     ]
                 },
                 {
+                    text: '难题合集',
+                    collapsed: false,
+                    items: [
+                        { text: '接雨水', link: '/algorithm/hard-collection/TrappingRainWater' },
+                    ]
+                },
+                {
                     text: '基础',
                     collapsed: false,
                     items: [
