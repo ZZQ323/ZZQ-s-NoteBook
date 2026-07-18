@@ -1,4 +1,4 @@
-# 接雨水
+# 接雨水及剩下的题目
 
 顺序	题目	用来建立什么直觉
 1. 	LC 496 / 503. 下一个更大元素	单调栈进阶（含循环数组），巩固"栈里存的是下标不是值"
@@ -187,9 +187,39 @@ class Solution {
 }
 ```
 
-## 最后一击
+后面反应过来，其实觉得这一题只用一次单调栈就可以了，毕竟只需要往一个方向扩张即可。
+如果统一往左边扩张，那么高在左边，序列单调减的时候次次弹栈进行结算，然后序列增的时候等增完了进行最大值筛选 —— 这个处理逻辑就不是根据此时的 $i$ 来进行的，而是 $i$ 之前满足单调递增的序列之间依次进行。
 
-延续之前的逻辑，我们能知道可以通过单调性去维护
+重要的是保证栈内单调递增，然后就可以只遍历一次就处理完成。
+这里则是更加利用了**栈的单调性进行极值的判定**{.color-purple}，然后处理题目。
+
+```java
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        int n = heights.length;
+        Deque<Integer> stack = new ArrayDeque<>(); 
+        // 存下标，栈底到栈顶高度严格递增
+        int ans = 0;
+        for (int i = 0; i <= n; i++) {
+            // 末尾追加高度0的哨兵，强制清空栈
+            int cur = (i == n) ? 0 : heights[i]; 
+            while (!stack.isEmpty() && cur < heights[stack.peek()]) {
+                int idx = stack.pop();
+                int left = stack.isEmpty() ? -1 : stack.peek();
+                int width = i - left - 1;
+                ans = Math.max(ans, heights[idx] * width);
+            }
+            stack.push(i);
+        }
+        return ans;
+    }
+}
+```
+
+## LC42 对接雨水的最后一击 [link](https://leetcode.cn/problems/trapping-rain-water/submissions/736318702/?envType=study-plan-v2&envId=top-100-liked)
+
+延续之前的逻辑，我们能知道可以通过单调性去获取周围的消息。
+本着极小值与水坑的联系，我完成了最终的代码。
 
 ```java
 class Solution {
@@ -248,8 +278,16 @@ class Solution {
 }
 ```
 
+这个东西的问题嘛 …… 就是如果是大坑+小坑，他就遭不住了，因为这么做分不清水层，也没有办法处理小坑上面大坑的水（因为有多个极值挡路了，这个办法只能处理一个极值）。
 
+例1：$height =[4,2,0,3,2,5]$  
+例2：$height =[3,4,0,4,0,3,2,4,1,1]$
 
+所以还是回归到最原始的方式重新思考。
+如果我们需要计算坑的水量，那么我们需要的是两面墙，墙的特点：首先是比中间高，其次是不连续。
+
+那么单调栈其实就直接能处理这个事情，需要两面墙而单调栈处理一个递减栈，那么一面墙天生就完成了。
+另一面墙在识别到极小值的时候会触发，这个时候不要急着维护第二单调栈，只需要回头看第一面墙即可。
 
 ```java
 class Solution {
@@ -273,3 +311,8 @@ class Solution {
     }
 }
 ```
+
+这样的的做法可以完美处理大坑套小坑的问题，这也是单调栈最经典的用法。脑洞大开！
+
+## LC407 接雨水II [](https://leetcode.cn/problems/trapping-rain-water-ii/)
+

@@ -77,6 +77,7 @@ export default withMermaid({
                     collapsed: false,
                     items: [
                         { text: '接雨水', link: '/algorithm/hard-collection/TrappingRainWater' },
+                        { text: '别样的数数', link: '/algorithm/hard-collection/large-amount' },
                     ]
                 },
                 {
@@ -127,8 +128,8 @@ export default withMermaid({
                     items: [
                         { text: '【推导】数论-GCD部分', link: '/algorithm/number-theory/GCD-Equation' },
                         { text: '【推导】同余方程、方程组、', link: '/algorithm/number-theory/Modular-Equation' },
+                        { text: '数论代码', link: '/algorithm/number-theory/gcd' },
                         { text: '素数推论', link: '/algorithm/number-theory/prime' },
-                        { text: '模运算推论', link: '/algorithm/number-theory/gcd' },
                         { text: '模运算与快速幂', link: '/algorithm/number-theory/modular' },
                     ]
                 },
