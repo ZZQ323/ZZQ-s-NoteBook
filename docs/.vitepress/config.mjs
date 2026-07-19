@@ -88,7 +88,8 @@ export default withMermaid({
                         { text: '排序算法', link: '/algorithm/basics/sorting' },
                         { text: '分块', link: '/algorithm/basics/blocking' },
                         { text: '双指针', link: '/algorithm/basics/two-pointer' },
-                        { text: '搜素', link: '/algorithm/basics/searching' },
+                        { text: '搜索', link: '/algorithm/basics/searching' },
+                        { text: '高频预处理方案（未分类）', link: '/algorithm/basics/searching' },
                     ]
                 },
                 {

@@ -2,7 +2,7 @@
 
 ## 数字很多，但是数字不大。
 
-### 3312. 查询排序后的最大公约数 [link](https://leetcode.cn/problems/sorted-gcd-pair-queries/)
+### 【母题】枚举倍数 3312. 查询排序后的最大公约数 [link](https://leetcode.cn/problems/sorted-gcd-pair-queries/)
 
 读题发现两个难点，一个是 queries 很多，另一个是 queries 的值很大。
 这两个问题导致很难正常进行枚举 $gcd$ ，因为正常暴力枚举是 $O(n^2)$，然后`new 1e10` 的 `int` 放 $gcd$ 也很变态。   
@@ -82,6 +82,8 @@ public int[] gcdValues(int[] nums, long[] queries) {
         return gcdPairs;
     }
 ```
+
+
 
 
 

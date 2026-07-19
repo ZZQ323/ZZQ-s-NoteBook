@@ -341,4 +341,229 @@ int main() {
 }
 ```
 
-## 
+## 区间覆盖
+
+### 3995. 转换字符串的最小成本 III [link](https://leetcode.cn/problems/minimum-cost-to-convert-string-iii/description/)
+
+
+:::info 
+给你两个字符串 source 和 target。
+
+同时给你一个二维字符串数组 rules，其中 $rules[i] = [pattern_i, replacement_i]$，以及一个整数数组 costs，其中 costs[i] 是应用 rules[i] 的基本成本。两个数组长度相同。此外， $pattern_i$ 和 $replacement_i$ 的长度也相同。
+
+你可以任意 次数地应用任意规则。每次应用规则 rule[i] 的过程如下：
+  1. 选择当前字符串的一个下标 l，使得从 $l$ 到 $l + pattern_i.length - 1$ 的位置范围存在于当前字符串中，并且这些位置中没有任何一个在之前的规则应用中被使用过。
+  2. 对于 $pattern_i$ 每个下标 j，字符 $pattern_i[j]$ 必须 等于 当前字符串位置 $l + j$ 处的字符，或者是 '*'。将该范围内的字符替换为 replacementi 。替换内容将 完全 按照给定的使用，且不包含通配符。
+  3. 这次规则应用的成本是 costs[i] 加上 $pattern_i$ 中 '*' 字符的数量。一旦某个字符位置在某次规则应用中被使用，它就不能在后续的任何规则应用中被再次使用。
+
+因为每个 $pattern_i$ 和 $replacement_i$ 的长度都相同，所以在每次规则应用之后，字符的位置都会保留。
+
+返回将 source 转换为 target 所需的 最小总成本。如果无法完成转换，则返回 -1。
+:::
+
+题目话很多，而且一个**困难**{.color-red}很tm吓人。但是呢一眼dp，审题重点如下：
+1. 结合样例理解，就是 rules 有一个 pattern 有一个 replacement ，二者长度相同，然后用 pattern 换 replacement（长度不同其实也没关系，比如 [编辑距离](https://www.luogu.com.cn/problem/P2758) ， 无非就是一维还是二维的问题，这里是一维）
+2. 然后“一旦某个字符位置在某次规则应用中被使用，它就不能在后续的任何规则应用中被再次使用”，**说明不存在 “规则堆叠”**{.color-orange}，也即在原位置通过好几个规则同时使用才能看到最终的效果
+3. 最亮眼的还是 **最小总成本**{.color-red}，这下就是非DP不可了。
+
+根据题目“你可以任意次数地应用任意规则”，这说明这还是个无限的背包的问题，采用正向遍历的方式进行 —— 但值得注意的是，应用了规则的一段范围内不能使用其他规则，也即规则使用范围不交叉。   
+
+那么思路就出来了，首先标记这个点可以使用什么规则，然后正向更新每一个点。
+但是如果只想到这些，那么dp的更新是断断续续的，我就栽跟头在这里 —— 这里还需要知道在这个点没有`rules`的时候且源字符串和目标相同的时候，进行dp数值的传递。
+
+那如何保证这个规则能用呢？**不仅得保证pattern和source匹配，也需要保证 replacement 和target一致**{.color-orange} —— 那才是可选项。
+并且注意提前预处理通配符'*'的额外消耗。
+
+
+```java
+class Solution {
+    public int minCost(String source, String target, List<List<String>> rules, int[] costs) {
+        int n = source.length();
+        costs = costs.clone();
+        for (int i = 0; i < rules.size(); i++) {
+            int cnt = 0;
+            for (char ch : rules.get(i).get(0).toCharArray()) {
+                if (ch == '*') cnt++;
+            }
+            costs[i] += cnt;
+        }
+
+        // 直接逐字符比较预处理每个起点能用哪些规则
+        List<Integer>[] possibilities = new List[n];
+        for (int i = 0; i < n; i++) possibilities[i] = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < rules.size(); j++) {
+                String pat = rules.get(j).get(0), rep = rules.get(j).get(1);
+                int L = pat.length();
+                if (i + L > n) continue;
+                if (matches(source, i, pat) && target.regionMatches(i, rep, 0, L)) {
+                    possibilities[i].add(j);
+                }
+            }
+        }
+
+        long INF = Long.MAX_VALUE / 2;
+        long[] dp = new long[n + 1];
+        Arrays.fill(dp, INF);
+        dp[0] = 0;
+        for (int i = 0; i < n; i++) {
+            if (dp[i] == INF) continue;
+            if (source.charAt(i) == target.charAt(i)) {
+                dp[i+1] = Math.min(dp[i+1], dp[i]);
+            }
+            for (int j : possibilities[i]) {
+                int L = rules.get(j).get(1).length();
+                dp[i+L] = Math.min(dp[i+L], dp[i] + costs[j]);
+            }
+        }
+        return dp[n] == INF ? -1 : (int) (dp[n] % 1_000_000_007);
+    }
+
+    private boolean matches(String s, int start, String pattern) {
+        for (int k = 0; k < pattern.length(); k++) {
+            char pc = pattern.charAt(k);
+            if (pc != '*' && s.charAt(start + k) != pc) return false;
+        }
+        return true;
+    }
+}
+```
+
+字符串长度很小，说明不存在kmp等加速匹配的方法，但是我还是在蛊惑之下试了一下，发现根本不符合逻辑。
+
+```java
+int[] kmp(String s) {
+        int[] next = new int[s.length() + 1];
+        Arrays.fill(next, -1);
+        int j = 0, k = -1;
+        while (j < s.length()) {
+            if (k == -1 || s.charAt(j) == s.charAt(k)) {
+                ++j;
+                k++;
+                if (j >= s.length()) break;
+                if (s.charAt(j) == s.charAt(k)) next[j++] = k++;
+                else k = next[k];
+            } else {
+                k = next[k];
+            }
+        }
+        return next;
+    }
+
+// kmp 优化片段
+List<Integer>[] possibilities = new List[source.length()];
+for (int i = 0; i < possibilities.length; i++) possibilities[i] = new ArrayList<>();
+
+for (int i = 0; i < rules.size(); i++) {
+    String pattern = rules.get(i).get(0);
+    String replace = rules.get(i).get(1);
+    int[] nex = kmp(replace);
+
+    int j = 0, k = 0;
+    for (; j < source.length() && k < pattern.length(); ) {
+        // 使用next
+        if (k == -1) {
+            ++k;++j;
+        } else if (
+                (pattern.charAt(k) == '*' || source.charAt(j) == pattern.charAt(k))
+                        && target.charAt(j) == replace.charAt(k)
+        ) {
+            ++k;++j;
+        } else {
+            k = nex[k];
+        }
+    }
+    // 没用完，长度不够了也不算匹配
+    if (k == pattern.length() ) {
+        possibilities[j-1].add(i);
+    }
+}
+```
+
+因为 kmp 的匹配是针对于这个字符串的，并不能保证 pattern 和 replacement 一样的回溯逻辑，更何况pattern还有通配符！！
+
+第一次写的时候，并没有想到是无限背包的dp，所以写的是记忆化搜索 —— 这里主要是判断使用逻辑的问题，必须是遇到了能使用的就使用。
+
+```java
+class Solution {
+    String target,source;
+    List<List<String>> rules;
+    List<Integer>[] possibilities;
+    int[] costs;
+    int ans = 0;
+
+    boolean DFS(int beg,int sum)
+    {
+        if(beg>=target.length()){
+            ans = Math.min(ans,sum);
+            return true;
+        }
+        for(int i=beg;i<target.length();i++){
+            if( source.charAt(i) != target.charAt(i) ){
+                // 无法解决
+                if( possibilities[i].isEmpty() )return false;
+                boolean flag = false;
+                for(int j=0;j<possibilities[i].size();j++){
+                    int idx = possibilities[i].get(j);
+                    int ln =  rules.get(idx).get(1).length();
+                    flag |= DFS(i + ln, sum + costs[idx]);
+                }
+                return flag;
+            }
+        }
+        // 如果是顺利出来，那意味着没有
+        ans = Math.min(ans,sum);
+        return true;
+    }
+
+    boolean startsWithV2(String target,String pattern)
+    {
+        if( target.length() < pattern.length() )return false;
+        for(int i=0;i<pattern.length();i++){
+            if( pattern.charAt(i) == '*' || target.charAt(i) == pattern.charAt(i) )continue;
+            return false;
+        }
+        return true;
+    }
+
+    public int minCost(String source, String target, List<List<String>> rules, int[] costs) {
+        this.target = target;
+        this.source = source;
+        this.rules = rules;
+        this.costs = costs;
+        possibilities = new List[source.length()];
+
+        for(int i = 0; i < possibilities.length; i++){
+            possibilities[i] = new ArrayList<>();
+        }
+
+        for(int i = 0; i < rules.size(); i++){
+            int cnt = 0;
+            for(int j = 0; j < rules.get(i).get(1).length(); j++){
+                if(rules.get(i).get(0).charAt(j)=='*'){
+                    ++cnt;
+                }
+            }
+            costs[i] += cnt;
+        }
+
+        for(int i=0;i<source.length();i++){
+            for(int j=0;j<rules.size();j++){
+                // 不需要在调用 startsWith 之前手动判断长度，内部已经帮你处理好了
+                if( startsWithV2(source.substring(i),rules.get(j).get(0))  &&
+                    startsWithV2(target.substring(i),rules.get(j).get(1))
+                    ){
+                    possibilities[i].add(j);
+                }
+            }
+        }
+        ans = Integer.MAX_VALUE;
+        DFS(0, 0);
+        return ans==Integer.MAX_VALUE?-1:ans;
+    }
+}
+```
+
+
+
+
