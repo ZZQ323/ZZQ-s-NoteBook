@@ -214,6 +214,31 @@ for (int i = 0; i < possibilities.length; i++) {
 Arrays.setAll(possibilities, i -> new ArrayList<>());
 ```
 
+但是多重嵌套的集合并不好直接用索引操作：
+```java
+List<List<Integer>> ret = new ArrayList<>(n);   // size = 0，只是 capacity = n
+for (int i = 0; i < n; i++) {
+    ret.set(i, new ArrayList<>(m));             // ❌ i 超出边界，因为 size 还是 0
+}
+```
+
+而是应当尊重集合的添加与删除规则进行操作：
+```java
+List<List<Integer>> ret = new ArrayList<>(n);
+for (int i = 0; i < n; i++) {
+    ret.add(new ArrayList<>(m));   // ✅ add 会动态扩展 size
+}
+// 先填充占位（不推荐，但可工作）
+List<List<Integer>> ret = new ArrayList<>(Collections.nCopies(n, null));
+for (int i = 0; i < n; i++) {
+    ret.set(i, new ArrayList<>(m));
+}
+
+// 使用 Stream 生成（Java 8+）
+List<List<Integer>> ret = IntStream.range(0, n)
+    .mapToObj(i -> new ArrayList<Integer>(m))
+    .collect(Collectors.toList());
+```
 
 ## 字符串操作
 ### 新字符串的构造

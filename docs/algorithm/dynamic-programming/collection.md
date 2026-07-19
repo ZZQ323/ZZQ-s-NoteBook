@@ -565,5 +565,16 @@ class Solution {
 ```
 
 
+## 字符串的距离
+
+也就是莱文斯坦距离（Levenshtein distance）
+
+1. [编辑距离](https://www.luogu.com.cn/problem/P2758)
+2. [字串距离](https://www.luogu.com.cn/problem/P1279)
+
+
+
+
+
 
 
