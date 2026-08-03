@@ -240,7 +240,7 @@ List<List<Integer>> ret = IntStream.range(0, n)
     .collect(Collectors.toList());
 ```
 
-## 字符串操作
+## 字符串操
 ### 新字符串的构造
 java的字符串是无法被直接编辑的 —— 比C++麻烦很多。
 我们只能使用 `StringBuilder` 进行编辑，但是编辑的时候有需要注意的点：

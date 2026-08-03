@@ -115,6 +115,25 @@ export default withMermaid({
                     ]
                 },
                 {
+                    text: '数论',
+                    collapsed: false,  // 默认展开
+                    items: [
+                        { text: '【推导】数论-GCD部分', link: '/algorithm/number-theory/GCD-Equation' },
+                        { text: '【推导】同余方程、方程组、', link: '/algorithm/number-theory/Modular-Equation' },
+                        { text: '数论代码', link: '/algorithm/number-theory/gcd' },
+                        { text: '素数推论', link: '/algorithm/number-theory/prime' },
+                        { text: '模运算与快速幂', link: '/algorithm/number-theory/modular' },
+                    ]
+                },
+                {
+                    text: '组合数学',
+                    collapsed: false,  // 默认展开
+                    items: [
+                        { text: '排列组合', link: '/algorithm/combinatorial-math/basics' },
+                        { text: '排列的比较', link: '/algorithm/combinatorial-math/compare' },
+                    ]
+                },
+                {
                     text: '计算几何',
                     collapsed: false,  // 默认展开
                     items: [
@@ -124,14 +143,10 @@ export default withMermaid({
                     ]
                 },
                 {
-                    text: '数论',
+                    text: '字符串问题',
                     collapsed: false,  // 默认展开
                     items: [
-                        { text: '【推导】数论-GCD部分', link: '/algorithm/number-theory/GCD-Equation' },
-                        { text: '【推导】同余方程、方程组、', link: '/algorithm/number-theory/Modular-Equation' },
-                        { text: '数论代码', link: '/algorithm/number-theory/gcd' },
-                        { text: '素数推论', link: '/algorithm/number-theory/prime' },
-                        { text: '模运算与快速幂', link: '/algorithm/number-theory/modular' },
+                        { text: '字符串的匹配', link: '/algorithm/string/match.md' },
                     ]
                 },
                 {

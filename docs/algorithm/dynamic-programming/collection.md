@@ -1,9 +1,10 @@
 
 # DP 题的各种变式题单
 
-## P1002 [NOIP 2002 普及组] 过河卒
+## 图上dp
+
 ::: details **题目信息**
-- **提交链接**：[P1002 [NOIP 2002 普及组] 过河卒](https://www.luogu.com.cn/problem/P1002) 
+- **提交链接**：P1002 [NOIP 2002 普及组] 过河卒 [link](https://www.luogu.com.cn/problem/P1002) 
 - **母题**
   - [P1434 [SHOI2002] 滑雪](https://www.luogu.com.cn/problem/P1434)
   - [P2196 [NOIP 1996 提高组] 挖地雷](https://www.luogu.com.cn/problem/P2196)
@@ -165,186 +166,9 @@ int main()
 
 ```
 
-## P1049 [NOIP 2001 普及组] 装箱问题
-::: details **题目信息**
-- **提交链接**：[P1049 [NOIP 2001 普及组] 装箱问题](https://www.luogu.com.cn/problem/P1049) 
-- **母题**：
-  - [P1048 [NOIP 2005 普及组] 采药](https://www.luogu.com.cn/problem/P1048)
-  - [P1802 5 倍经验日](https://www.luogu.com.cn/problem/P1802)  
-:::
-::: tip **分析**
-- 经典的只取一次，没什么看点。
-:::
-
-```C++
-#include<bits/stdc++.h>
-using namespace std;
-using ll  = long long ;
-
-const int N = 30;
-const int M = 2e4+100;
-int a[N];
-bool dp[M]={};
-
-int main()
-{
-    ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-    int m,n; cin >> m >>n;
-    for(int i=0;i<n;++i)cin >> a[i];
-    sort(a,a+n);
-    //  任取若干个装入箱内（也可以不取）
-    dp[0] = 1;
-    for(int i=0;i<n;++i){
-        for(int j=m;j>=a[i];--j){
-            dp[j] |= dp[j-a[i]];
-        }
-    }
-    for(int j=m;j>=0;--j){
-        if(dp[j]){
-            cout << m-j << '\n';
-            break;
-        }
-    }
-    return 0;
-}
-
-```
-
-## P1616 疯狂的采药
-
-::: details **题目信息**
-- **提交链接**：[P1616 疯狂的采药](https://www.luogu.com.cn/problem/P1616) 
-- **母题**
-  - [P2834 纸币问题 3](https://www.luogu.com.cn/problem/P2834)
-  - [P2840 纸币问题 2](https://www.luogu.com.cn/problem/P2840)
-:::
-
-::: tip **分析**
-- 经典的取多次，也没什么看点。
-- 注意数据范围，int会爆炸。
-:::
-
-```C++
-#include<bits/stdc++.h>
-using namespace std;
-
-const int M = 1e4+100;
-const int T = 1e7+100;
-int time1[M],value[M];
-long long  dp[T]={};
-
-int main()
-{
-    ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-    int t,m;cin >> t >> m;
-    for(int i=0;i<m;++i) cin >> time1[i] >> value[i];
-    for(int j=0;j<=t;++j){
-        for(int i=0;i<m;++i){
-            if(j>=time1[i]){
-                dp[j] = max(dp[j],dp[j-time1[i]]+value[i]);
-            }
-        }
-    }
-    cout << dp[t] << '\n';
-    return 0;
-}
-
-```
-
-## P1164 小A点菜
-
-::: details **题目信息**
-- **提交链接**：[P1616 疯狂的采药](https://www.luogu.com.cn/problem/P1616) 
-- **母题**
-  - [P1048 [NOIP 2005 普及组] 采药](https://www.luogu.com.cn/problem/P1048)
-  - [P1802 5 倍经验日](https://www.luogu.com.cn/problem/P1802)  
-:::
-::: tip **分析**
-- 经典的只取一次，没什么看点。
-:::
-
-```C++
-#include<bits/stdc++.h>
-using namespace std;
-
-const int M = 1e4+100;
-const int N = 1e2+100;
-int a[N],dp[M]={};
-
-int main()
-{
-    ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-    int n,m; cin >> n >> m;
-    // 每种菜只有一份
-    for(int i=0;i<n;++i) cin >> a[i];
-    dp[0] = 1;
-    for(int i=0;i<n;++i){
-        for(int j=m;j>=a[i];--j){
-            dp[j] = max(dp[j],dp[j-a[i]]+dp[j]);
-        }
-    }
-    cout << dp[m] << '\n';
-    return 0;
-}
-```
-
-## P1077 [NOIP 2012 普及组] 摆花
-
-::: details **题目信息**
-- **提交链接**：[P1077 [NOIP 2012 普及组] 摆花](https://www.luogu.com.cn/problem/P1077)
-- **母题**
-  - [P1048 [NOIP 2005 普及组] 采药](https://www.luogu.com.cn/problem/P1048)
-  - [P1802 5 倍经验日](https://www.luogu.com.cn/problem/P1802)
-:::
-::: tip **分析**
-- 变着花样出只拿一次 …… 
-- 这里的关键问题是题目的特殊限制：{lightblue:不同种类的花需按标号的从小到大的顺序依次摆列} 以及 {lightblue:摆花时同一种花放在一起}，这要求我们一定要 “按花的类型遍历”，以及对每种花的个数和状态进行单独的讨论。
-- 因为是统计组成类型，所以是 $dp += dp$；因为需要考虑前N个的情况，并进行没有规律的覆写，所以单独存储“前i个的情况”，考虑二维$dp[i][j]$为{lightsalmon:前i个，一共j个的方案个数}。
-:::
-
-
-```C++
-#include<bits/stdc++.h>
-
-using namespace std;
-
-const int M = 1e2 + 100;
-const int N = 1e2 + 100;
-const int A = 1e2 + 100;
-const int mod = 1e6 + 7;
-int a[N];
-int dp[N][M] = {}; // 考虑前i个，一共j个的方案数
-
-int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
-    int n, m;
-    cin >> n >> m;
-    // 每种菜只有一份
-    for (int i = 0; i < n; ++i) cin >> a[i];
-    // 第 i 种花不能超过 a[i] 盆
-    // 摆花时同一种花放在一起
-    // 不同种类的花需按标号的从小到大的顺序依次摆列
-    // dp[0] = 1;
-    // dp[i][j] += dp[i-1][j-k];
-    for(int k=0;k<=a[0];++k) dp[0][k] = 1;
-    for(int i=1;i<n;++i){
-        for(int j=m;j>=0;--j){
-            for(int k=0;k<=min(a[i],j);++k){
-                dp[i][j] = (dp[i][j] + dp[i-1][j-k])%mod ;
-            }
-        }
-    }
-    cout << dp[n-1][m] << '\n';
-    return 0;
-}
-```
-
 ## 区间覆盖
 
 ### 3995. 转换字符串的最小成本 III [link](https://leetcode.cn/problems/minimum-cost-to-convert-string-iii/description/)
-
 
 :::info 
 给你两个字符串 source 和 target。
@@ -373,7 +197,6 @@ int main() {
 
 那如何保证这个规则能用呢？**不仅得保证pattern和source匹配，也需要保证 replacement 和target一致**{.color-orange} —— 那才是可选项。
 并且注意提前预处理通配符'*'的额外消耗。
-
 
 ```java
 class Solution {
@@ -564,6 +387,124 @@ class Solution {
 }
 ```
 
+## 巴巴博弈
+
+- [877. 石子游戏]( https://leetcode.cn/problems/stone-game/ )
+  - 每回合，玩家从行的 开始 或 结束 处取走整堆石头，然后看最后谁最多
+  - 与[486. 预测赢家](https://leetcode.cn/problems/predict-the-winner/description/) 是用一个题目
+- [1406. 石子游戏 III]( https://leetcode.cn/problems/stone-game-iii/description/ )
+  - 你只能从前往后选，每次可以选1、2、3堆
+
+乍一看，是博弈问题，但仔细一看，并不是熟知的“巴什游戏”和“尼姆游戏”，其实只是一种利用dp进行博弈的计算方式。
+
+针对 [877. 石子游戏]( https://leetcode.cn/problems/stone-game/ )而言，如果你考虑的是双指针，似乎总是出错 —— 因为贪心并不是“最优的考虑” ，无论是贪最大，还是贪“怎么样让对方下一次最小”，总是会出现无法遇见的意外 —— 这就是缺失信息了，需要用dp。
+
+```java
+// 错误示范
+class Solution {
+    public boolean predictTheWinner(int[] nums) {
+        int l=0,r=nums.length-1;
+        int winner1 = 0;
+        int winner2 = 0;
+        boolean turns = true;
+        // 最小化对方的下一步
+        while(l<r){
+            int nmax = Math.max(nums[l],nums[r]);
+            int nnmax1 = Math.max(nums[l+1],nums[r]);
+            int nnmax2 = Math.max(nums[l],nums[r-1]);
+            if(l==r-1){
+                nnmax1 = nnmax2 = -1;
+            }
+            if(turns){
+                if( nnmax1<nnmax2 )winner1+=nums[l++];
+                else if( nnmax1>nnmax2 ) winner1+=nums[r--];
+                else if( nums[l]>nums[r] )winner1+=nums[l++];
+                else winner1+=nums[r--];
+            }else{
+                if( nnmax1<nnmax2 )winner2+=nums[l++];
+                else if( nnmax1>nnmax2 ) winner2+=nums[r--];
+                else if( nums[l]>nums[r] )winner2+=nums[l++];
+                else winner2+=nums[r--];
+            }
+            turns = !turns;
+        }
+        if(turns){
+            winner1+=nums[l];
+        }else{
+            winner2+=nums[r];
+        }
+        return winner1>=winner2;
+    }
+}
+```
+
+反而，你看到“谁更多”、“两端”、“每次都在收尾”，你应该能联想到区间dp的操作 —— dp能携带比贪心更多的信息。
+
+那么接下来考虑的是遍历方式。这是第二个难点，我在两道题上都卡在了这个点上，也即 ——  怎么遍历？
+
+从直觉上讲，无论是取前面的1、2、3堆，还是两边取，那么其实应该自顶向下运行，因为这就是题目运行的顺序。
+但是如果这么想，不仅代码很难写，而且不符合dp运行的逻辑（从小到大）。
+
+这里的误区在于，怎么开始并不是能直接选择的 —— 怎么开始伴随着接下来对对手最大的限制。
+也即，在对手接下来取最大的情况下，我这一步这么选，能不能最好呢？
+
+所以是**从后往前的考虑**{.color-purple}，在你考虑这么多的时候，后缀那么多最好的情况是，所以你这么选 —— **所以你才燃尽了，你得到了最好的结果**{.color-blue}。
+
+```java
+// 两边取
+class Solution {
+    public boolean predictTheWinner(int[] nums) {
+        int ln = nums.length;
+        if(ln==1)return true;
+        int[][] dp = new int[ln][ln];
+        for(int i = 0; i < ln; i++){
+            dp[i][i] = nums[i];
+        }
+        // 奇数就是1
+        // 偶数就是2
+        for(int gap = 2;gap<=ln;++gap){
+            for(int l=0;l<ln;l++){
+                for(int r = l+gap-1;r<ln;r++){
+                    dp[l][r] = Math.max(nums[r]-dp[l][r-1],nums[l]-dp[l+1][r]);
+                }
+            }
+        }
+        return dp[0][ln-1]>=0;
+    }
+}
+```
+
+```java
+// 任意取1、2、3堆
+class Solution {
+    public String stoneGameIII(int[] stoneValue) {
+        // Alice 总是先开始
+        // 1、2 或 3 堆石子
+        // 比赛的目标是决出最高分，得分最高的选手将会赢得比赛
+        int ln = stoneValue.length;
+        int[] dp = new int[ln + 10];
+        Arrays.fill(dp, Integer.MIN_VALUE);
+        int[] preSum = new int[ln + 10];
+
+        preSum[0] = 0;
+        for(int i = 1; i <= ln; i++){preSum[i] = preSum[i-1] + stoneValue[i-1];}
+        // 从前面取：永远是后面的序列决定前面选择的状态
+        // 从两边取：永远是中间决定开始的状态
+        dp[ln] = 0;
+        for(int i = ln-1; i >= 0; i--){
+            dp[i] = Math.max(dp[i], preSum[i+1]-preSum[i]-dp[i+1]);
+            if(i>ln-2)continue;
+            dp[i] = Math.max(dp[i], preSum[i+2]-preSum[i]-dp[i+2]);
+            if(i>ln-3)continue;
+            dp[i] = Math.max(dp[i], preSum[i+3]-preSum[i]-dp[i+3]);
+        }
+
+        if (dp[0] == 0) return "Tie";
+        else if (dp[0] > 0) return "Alice";
+        else return "Bob";
+    }
+}
+```
 
 ## 字符串的距离
 
@@ -571,10 +512,5 @@ class Solution {
 
 1. [编辑距离](https://www.luogu.com.cn/problem/P2758)
 2. [字串距离](https://www.luogu.com.cn/problem/P1279)
-
-
-
-
-
 
 

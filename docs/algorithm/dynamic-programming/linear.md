@@ -100,6 +100,43 @@ int main()
 
 ```
 
+### 习题
+
+#### 习题1  [P1616 疯狂的采药](https://www.luogu.com.cn/problem/P1616) 
+
+::: tip **分析**
+- 经典的取多次，也没什么看点。
+- 注意数据范围，int会爆炸。
+:::
+
+```C++
+#include<bits/stdc++.h>
+using namespace std;
+
+const int M = 1e4+100;
+const int T = 1e7+100;
+int time1[M],value[M];
+long long  dp[T]={};
+
+int main()
+{
+    ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+    int t,m;cin >> t >> m;
+    for(int i=0;i<m;++i) cin >> time1[i] >> value[i];
+    for(int j=0;j<=t;++j){
+        for(int i=0;i<m;++i){
+            if(j>=time1[i]){
+                dp[j] = max(dp[j],dp[j-time1[i]]+value[i]);
+            }
+        }
+    }
+    cout << dp[t] << '\n';
+    return 0;
+}
+
+```
+
+
 ## 母题-只许拿一次的组成
 
 ### 题干  
@@ -226,6 +263,128 @@ int main()
 }
 
 ```
+
+
+### 习题
+
+#### 习题1 P1049 [NOIP 2001 普及组] 装箱问题 [link](https://www.luogu.com.cn/problem/P1049) 
+
+::: tip **分析**
+- 经典的只取一次，没什么看点。
+:::
+
+```C++
+#include<bits/stdc++.h>
+using namespace std;
+using ll  = long long ;
+
+const int N = 30;
+const int M = 2e4+100;
+int a[N];
+bool dp[M]={};
+
+int main()
+{
+    ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+    int m,n; cin >> m >>n;
+    for(int i=0;i<n;++i)cin >> a[i];
+    sort(a,a+n);
+    //  任取若干个装入箱内（也可以不取）
+    dp[0] = 1;
+    for(int i=0;i<n;++i){
+        for(int j=m;j>=a[i];--j){
+            dp[j] |= dp[j-a[i]];
+        }
+    }
+    for(int j=m;j>=0;--j){
+        if(dp[j]){
+            cout << m-j << '\n';
+            break;
+        }
+    }
+    return 0;
+}
+
+```
+
+#### 习题2 [小A点菜](https://www.luogu.com.cn/problem/P1616) 
+
+::: tip **分析**
+- 经典的只取一次，没什么看点。
+:::
+
+```C++
+#include<bits/stdc++.h>
+using namespace std;
+
+const int M = 1e4+100;
+const int N = 1e2+100;
+int a[N],dp[M]={};
+
+int main()
+{
+    ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+    int n,m; cin >> n >> m;
+    // 每种菜只有一份
+    for(int i=0;i<n;++i) cin >> a[i];
+    dp[0] = 1;
+    for(int i=0;i<n;++i){
+        for(int j=m;j>=a[i];--j){
+            dp[j] = max(dp[j],dp[j-a[i]]+dp[j]);
+        }
+    }
+    cout << dp[m] << '\n';
+    return 0;
+}
+```
+
+#### 习题3 [P1077 [NOIP 2012 普及组] 摆花](https://www.luogu.com.cn/problem/P1077)
+
+::: tip **分析**
+- 变着花样出只拿一次 …… 
+- 这里的关键问题是题目的特殊限制：{lightblue:不同种类的花需按标号的从小到大的顺序依次摆列} 以及 {lightblue:摆花时同一种花放在一起}，这要求我们一定要 “按花的类型遍历”，以及对每种花的个数和状态进行单独的讨论。
+- 因为是统计组成类型，所以是 $dp += dp$；因为需要考虑前N个的情况，并进行没有规律的覆写，所以单独存储“前i个的情况”，考虑二维$dp[i][j]$为{lightsalmon:前i个，一共j个的方案个数}。
+:::
+
+
+```C++
+#include<bits/stdc++.h>
+
+using namespace std;
+
+const int M = 1e2 + 100;
+const int N = 1e2 + 100;
+const int A = 1e2 + 100;
+const int mod = 1e6 + 7;
+int a[N];
+int dp[N][M] = {}; // 考虑前i个，一共j个的方案数
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    int n, m;
+    cin >> n >> m;
+    // 每种菜只有一份
+    for (int i = 0; i < n; ++i) cin >> a[i];
+    // 第 i 种花不能超过 a[i] 盆
+    // 摆花时同一种花放在一起
+    // 不同种类的花需按标号的从小到大的顺序依次摆列
+    // dp[0] = 1;
+    // dp[i][j] += dp[i-1][j-k];
+    for(int k=0;k<=a[0];++k) dp[0][k] = 1;
+    for(int i=1;i<n;++i){
+        for(int j=m;j>=0;--j){
+            for(int k=0;k<=min(a[i],j);++k){
+                dp[i][j] = (dp[i][j] + dp[i-1][j-k])%mod ;
+            }
+        }
+    }
+    cout << dp[n-1][m] << '\n';
+    return 0;
+}
+```
+
 
 ## 多维dp
 

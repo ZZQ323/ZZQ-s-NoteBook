@@ -1,8 +1,47 @@
 # 你会不会数数？
 
-## 数字很多，但是数字不大。
+## 桶
 
-### 【母题】枚举倍数 3312. 查询排序后的最大公约数 [link](https://leetcode.cn/problems/sorted-gcd-pair-queries/)
+#### 3016. 输入单词需要的最少按键次数 II [link](https://leetcode.cn/problems/minimum-number-of-pushes-to-type-word-ii/)
+
+:::detail
+现在允许你将编号为 2 到 9 的按键重新映射到 不同 字母集合。每个按键可以映射到 任意数量 的字母，但每个字母 必须 恰好 映射到 一个 按键上。你需要找到输入字符串 word 所需的 最少 按键次数。
+
+返回重新映射按键后输入 word 所需的 最少 按键次数。
+
+电话键盘上的按键与 不同 小写英文字母集合相映射，可以通过按压按键来组成单词。例如，按键 2 对应 ["a","b","c"]，我们需要按一次键来输入 "a"，按两次键来输入 "b"，按三次键来输入 "c"。
+:::
+
+![九宫格手机输入](../../asset/docs/algorithm/hard-collection/large-amount.md/phone_keyboard.png)
+
+最初的想法就是个数越多的给他们分配到越前面，每8个一组进行计数。
+然后就做完了，因为没有更复杂的手段进行其他调整了，也不需要考虑更多
+
+```java
+class Solution {
+    public int minimumPushes(String word) {
+        int[] cnt = new int[26];
+        Integer[] idx = new Integer[26];
+        for(int i=0;i<26;++i) idx[i] = i;
+        for(int i = 0; i < word.length(); i++){
+            cnt[word.charAt(i) - 'a']++;
+        }
+
+        Arrays.sort(idx,(a, b) -> Integer.compare(cnt[b],cnt[a])  );
+
+        int ans = 0;
+        for(int i=0;i<26;++i){
+            if(cnt[idx[i]] == 0)break;
+            ans+=(i/8+1)*cnt[idx[i]];
+        }
+        return ans;
+    }
+}
+```
+
+## 【母题】枚举倍数 
+
+### 3312. 查询排序后的最大公约数 [link](https://leetcode.cn/problems/sorted-gcd-pair-queries/)
 
 读题发现两个难点，一个是 queries 很多，另一个是 queries 的值很大。
 这两个问题导致很难正常进行枚举 $gcd$ ，因为正常暴力枚举是 $O(n^2)$，然后`new 1e10` 的 `int` 放 $gcd$ 也很变态。   
