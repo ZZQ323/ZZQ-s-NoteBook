@@ -1,8 +1,8 @@
 # 高频预处理方案（未分类）
 
-## 前缀、后缀和
+## 连续+数位 
 
-### 【母题】移动数位的前缀和 [3756. 连接非零数字并乘以其数字和 II](https://leetcode.cn/problems/concatenate-non-zero-digits-and-multiply-by-sum-ii/description/)
+### [3756. 连接非零数字并乘以其数字和 II](https://leetcode.cn/problems/concatenate-non-zero-digits-and-multiply-by-sum-ii/description/)
 
 :::info
 输入： s = "10203004", queries = [[0,7],[1,3],[4,6]]
@@ -78,7 +78,34 @@ class Solution {
 }
 ```
 
-### 【母题】打断点  [3660. 跳跃游戏IX](https://leetcode.cn/problems/jump-game-ix/description/)
+## 连续+打断点  
+
+### [238. 除了自身以外数组的乘积](https://leetcode.cn/problems/product-of-array-except-self/description/)
+
+不要使用除法，且在 O(n) 时间复杂度内完成此题。
+
+谜底就在谜面上，都是连续，那就前缀后缀叭。
+
+```java
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        int ln =  nums.length;
+        int[] preMul = new int[ln+10];
+        preMul[0] = 1;
+        for(int i = 1; i <= ln; i++) preMul[i] = preMul[i-1] * nums[i-1];
+
+        int[] sufMul = new int[ln+10];
+        sufMul[ln] = 1;
+        for(int i=ln-1;i>=0;--i) sufMul[i] = sufMul[i+1] * nums[i];
+
+        int[] ret = new int[ln];
+        for(int i=0;i<ln;i++) ret[i] = preMul[i] * sufMul[i+1];
+        return ret;
+    }
+}
+```
+
+### 连续+图联系 [3660. 跳跃游戏IX](https://leetcode.cn/problems/jump-game-ix/description/)
 
 <!-- LC768「最多能完成排序的块 II」 -->
 
@@ -377,4 +404,64 @@ class Solution {
 ```
 
 
+## 哈希
 
+### “求和”的计数 [560. 和为 K 的子数组](https://leetcode.cn/problems/subarray-sum-equals-k/description/)
+
+这题可以想到前缀和，但是打消前缀和的念头也是对特定子数组的计算方式 —— $O(n^2)$的双循环。  
+
+但是这个题如果思考为：$a+b=c$，那么难度将会低很多。
+如果b是nums中的一个数，那么a其实不一定是，因为a可能是和！
+而前缀和保证的是“连续”，这就是最大的用处！！
+
+所以这道题实际上想要查找的是，遍历到x的时候，有多少个“和”满足$preSum+x=k$，这就是答案！
+
+```java
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        Map<Integer, Integer> cnt = new HashMap<>();
+        cnt.put(0,1);
+        int preSum = 0,ans = 0;
+        for(int i=0;i<nums.length;i++){
+            preSum += nums[i];
+            ans+=cnt.getOrDefault(preSum-k,0); //找到就拿，找不到就0
+            cnt.merge(preSum,1,Integer::sum); // 给key加一或者创建为1的k-v
+        }
+        return ans;
+    }
+}
+```
+
+## 优先队列
+
+### [239. 滑动窗口最大值](https://leetcode.cn/problems/sliding-window-maximum/description/)
+
+这题的难点在于如何最快速度得到区间最大值 —— 双指针是不可靠的，因为双指针会丢失信息。
+
+因为求最值，而想到了优先队列$O(nlogn)$的更新与 $O(1)$的读取，遂采纳。
+
+```java
+// 依旧是存下标，重载内部排序，与Arrays.sort类似
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        // 降序（大顶堆）：nums[b] 小的排在前面，即 nums[a] 大的优先
+        PriorityQueue<Integer> pe = new PriorityQueue<>(
+                (a, b) -> Integer.compare(nums[b], nums[a])
+        );
+        for(int i=0;i<k;++i){
+            pe.offer(i);
+        }
+        int[] res = new int[nums.length-k+1];
+        int cnt=0;
+        res[cnt++]=nums[pe.peek()];
+        for(int i=k;i<nums.length;++i){
+            pe.offer(i);
+            while( !pe.isEmpty() && Math.abs(pe.peek()-i)+1>k){
+                pe.poll();
+            }
+            res[cnt++]=nums[pe.peek()];
+        }
+        return res;
+    }
+}
+```

@@ -110,6 +110,35 @@ Arrays.sort(edges, Comparator.comparingInt(a -> a[0]));
     ```
     :::
 
+### 重排示例
+
+#### 56. 合并区间 [link](https://leetcode.cn/problems/merge-intervals/description/)
+
+二维数组根据第一个排序（这里的含义是左边界）。
+另外也作为合并区间的板子记忆。  
+
+```java
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        List<int[]> ret = new ArrayList<>();
+        Arrays.sort(intervals, (a,b)->a[0]-b[0]);
+        int cnt = 0;
+        for(int i=0;i<intervals.length;){
+            int j = i;
+            int r = intervals[i][1];
+            while(j+1<intervals.length && intervals[j+1][0] <= r){
+                r = Math.max(intervals[j+1][1],r);
+                ++j;
+            }
+            ret.add(new int[]{intervals[i][0],r});
+            cnt++;
+            i = j+1;
+        }
+        return ret.toArray(new int[cnt][]);
+    }
+}
+```
+
 ### Integer 比较坑点
 
 **-128 到 127 范围内的值会复用同一个 Integer 对象，所以在这个区间内 ==/!= 碰巧能得出"看起来正确"的结果**{.color-red}；但一旦超出这个范围（你贴的这批数据基本都是几万到几十万级别，远超 127），每次装箱都会 new 一个新的 Integer 对象，即使数值相同，引用也不同，!= 就会被误判为"不相等"。
@@ -240,7 +269,197 @@ List<List<Integer>> ret = IntStream.range(0, n)
     .collect(Collectors.toList());
 ```
 
-## 字符串操
+### 数组矩阵的更新
+
+
+- [189. 轮转数组](https://leetcode.cn/problems/rotate-array/)
+    数组具有周期性，但凡是涉及到平移的操作，只需要结合mod运算就能搞定
+    ```java
+    class Solution {
+        public void rotate(int[] nums, int k) {
+            int ln =  nums.length;
+            int[] arr = new int[ln];
+            for(int i = 0; i < ln; i++){
+                arr[(i+k)%ln] = nums[i];
+            }
+            for(int i = 0; i < ln; i++){
+                nums[i] = arr[i];
+            }
+        }
+    }
+    ```
+
+- [54. 螺旋矩阵](https://leetcode.cn/problems/spiral-matrix/?envType=study-plan-v2&envId=top-100-liked)
+    封装操作+控制状态，来达到代码量不高的模拟
+    ```java
+    class Solution {
+
+    boolean[][] visited;
+    int cnt,n,m;
+    List<Integer> ret;
+    int[][] matrix;
+
+    int cx,cy;
+
+    boolean check(int nx,int ny){
+        return nx>=0 && nx<n && ny>=0 && ny<m;
+    }
+
+    void toRight()
+    {
+        while(check(cx,cy+1) && !visited[cx][cy+1] ){
+            ++cy;
+            ret.add(matrix[cx][cy]);
+            visited[cx][cy] = true;
+            ++cnt;
+        }
+    }
+
+    void toLeft()
+    {
+        while(check(cx,cy-1) &&  !visited[cx][cy-1] ){
+            --cy;
+            ret.add(matrix[cx][cy]);
+            visited[cx][cy] = true;
+            ++cnt;
+        }
+    }
+
+    void toTop()
+    {
+        while(check(cx-1,cy) &&  !visited[cx-1][cy] ){
+            --cx;
+            ret.add(matrix[cx][cy]);
+            visited[cx][cy] = true;
+            ++cnt;
+        }
+    }
+
+    void toBottom()
+    {
+        while(check(cx+1,cy) &&  !visited[cx+1][cy] ){
+            ++cx;
+            ret.add(matrix[cx][cy]);
+            visited[cx][cy] = true;
+            ++cnt;
+        }
+    }
+
+    public List<Integer> spiralOrder(int[][] matrix) {
+        this.matrix = matrix;
+        n = matrix.length;
+        m = matrix[0].length;
+        visited = new boolean[n][m];
+        ret =  new ArrayList<>();
+        cnt = 0; cx = 0 ; cy=0;
+
+        ret.add(matrix[cx][cy]);
+        visited[cx][cy] = true;
+        ++cnt;
+        while(cnt<n*m){
+            toRight();
+            toBottom();
+            toLeft();
+            toTop();
+        }
+        return ret;
+    }
+    }
+    ```
+
+- [73. 矩阵置零](https://leetcode.cn/problems/set-matrix-zeroes/description/)
+    题目要求一个“仅使用常量空间的解决方案” —— 其意思并不是使用一个额外的数组去标记列和行该怎么操作，因为那样是 $O(n+m)$。
+    如果是常数，就只能手动创建几个变量来表示。
+    如果我们不考虑使用原地算法，也即自己覆盖自己的话，那么其实可以通过第一行和第一列来标记这样行和列要不要覆盖。
+    但请注意，这样操作的话，必须要单独记录第一行和第一列最后要不要被置0 —— 毕竟先置0的话就全部是0了。
+
+    ```java
+    class Solution {
+        public void setZeroes(int[][] matrix) {
+            boolean x0is0 = false;
+            boolean y0is0 = false;
+            for(int i = 0; i < matrix.length; i++){
+                if(matrix[i][0] == 0){
+                    x0is0 = true;
+                    break;
+                }
+            }
+            for(int i = 0; i < matrix[0].length; i++){
+                if(matrix[0][i] == 0){
+                    y0is0 = true;
+                    break;
+                }
+            }
+            for(int i = 1; i < matrix.length; i++){
+                for(int j = 1; j < matrix[0].length; j++){
+                    if(matrix[i][j] == 0){
+                        matrix[i][0] = 0;
+                        matrix[0][j] = 0;
+                    }
+                }
+            }
+            for(int i = 1; i < matrix.length; i++){
+                if(matrix[i][0] == 0){
+                    for(int j = 0; j < matrix[0].length; j++){
+                        matrix[i][j] = 0;
+                    }
+                }
+            }
+            for(int j = 1; j < matrix[0].length; j++){
+                if(matrix[0][j] == 0){
+                    for(int i = 0; i < matrix.length; i++){
+                        matrix[i][j] = 0;
+                    }
+                }
+            }
+            if(x0is0){
+                for(int i = 0; i < matrix.length; i++){
+                    matrix[i][0] = 0;
+                }
+            }
+            if(y0is0){
+                for(int i = 0; i < matrix[0].length; i++){
+                    matrix[0][i] = 0;
+                }
+            }
+        }
+    }
+    ```
+
+- [48. 旋转图像](https://leetcode.cn/problems/rotate-image/description/)
+    有一个额外的要修就不用额外的矩阵完成 —— 以及根据旋转的规律去看，我们能发现每4个数一组，只要我们临时保存一个，那么就可以一直依次挪动数字了。
+
+    然后多层就是先处理外部，然后处理内部。
+    注意 仅有x=0的时候成立，所以x只能取0 —— 设计的时候也是这么测的，所以x其实直接写成0也行。
+    ```java
+    class Solution {
+        int[][] matrix;
+        int offset;
+        int curPos(int pos){return offset+pos;}
+
+        void squareRotate(int size){
+            if(size <= 1)return;
+            for(int i = 0; i < size-1; i++){
+                int x = 0;
+                int temp = matrix[curPos(x)][curPos(i)];
+                matrix[curPos(x)][curPos(i)] = matrix[curPos(size-1-i)][curPos(x)];
+                matrix[curPos(size-1-i)][curPos(x)] = matrix[curPos(size-1-x)][curPos(size-1-i)];
+                matrix[curPos(size-1-x)][curPos(size-1-i)] = matrix[curPos(i)][curPos(size-1-x)];
+                matrix[curPos(i)][curPos(size-1-x)] = temp;
+            }
+            offset++;
+            squareRotate(size-2);
+            offset--;
+        }
+        public void rotate(int[][] matrix) {
+            this.matrix = matrix;
+            offset=0;
+            squareRotate(matrix.length);
+        }   
+    }
+    ```
+## 字符串操作
+
 ### 新字符串的构造
 java的字符串是无法被直接编辑的 —— 比C++麻烦很多。
 我们只能使用 `StringBuilder` 进行编辑，但是编辑的时候有需要注意的点：
@@ -294,6 +513,27 @@ List<Integer> uniqueNumbers = numbers.stream()
 System.out.println(uniqueNumbers);
 ```
 
+排序后去重，找最小的正数
+
+```java
+class Solution {
+    public int firstMissingPositive(int[] nums) {
+        int cur = 1;
+        Arrays.sort(nums);
+        nums = Arrays.stream(nums).distinct().toArray();
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] <=0)continue;
+            if(nums[i]==cur){
+                cur++;
+            }else{
+                return cur;
+            }
+        }
+        return cur;
+    }
+}
+```
+
 ### 快速读写数据结构
 
 在 Java 中，能快速读写的只有以下几种：
@@ -343,3 +583,106 @@ BitSet toBitSet(List<Integer> ls)
 
 ```
 
+### 操作map
+
+[76. 最小覆盖子串](https://leetcode.cn/problems/minimum-window-substring/description/?envType=study-plan-v2&envId=top-100-liked)
+
+
+```java
+class Solution {
+
+    Map<Character,Integer> tempateCnt, curCnt;
+    boolean isRight(){
+        for(Character c:tempateCnt.keySet()){
+            if( curCnt.getOrDefault(c,0) < tempateCnt.getOrDefault(c,0) )
+                return false;
+        }
+        return true;
+    }
+    public String minWindow(String s, String t) {
+        tempateCnt = new HashMap();
+        for(int i=0;i<t.length();i++)
+            tempateCnt.merge(t.charAt(i), 1, Integer::sum);
+            // 第一个参数 preSum：要操作的键。
+            // 第二个参数 1：默认值。如果键不存在，就把 1 放进去。
+            // 第三个参数 Integer::sum：合并函数（重映射函数）。
+            // 如果键已经存在，就用这个方法计算新值。Integer::sum 等价于 (oldValue, 1) -> oldValue + 1。
+        curCnt = new HashMap();
+        int l=0;
+        int pos=-1,len = Integer.MAX_VALUE;
+        for(int i=0;i<s.length();i++){
+            curCnt.merge(s.charAt(i), 1, Integer::sum);
+            if( isRight() ){
+                while( curCnt.getOrDefault(s.charAt(l),0) > tempateCnt.getOrDefault(s.charAt(l),0) ){
+                    curCnt.merge(s.charAt(l), -1, Integer::sum);
+                    ++l;
+                }
+                if( i-l+1 < len){
+                    len = i-l+1;
+                    pos = l;
+                }
+            }
+        }
+        return pos == -1 ? "" : s.substring(pos,pos+len);
+    }
+}
+```
+
+### 操作优先队列
+
+#### 简单大根堆 [239. 滑动窗口最大值](https://leetcode.cn/problems/sliding-window-maximum/)
+
+直接就是找最大值，然后排除超出范围的就行了，很简单的思路，注意边界就好
+
+```java
+// 根据外部数组排序，获取数值的时候注意不要乱删
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        // 降序（大顶堆）：nums[b] 小的排在前面，即 nums[a] 大的优先
+        PriorityQueue<Integer> pe = new PriorityQueue<>(
+                (a, b) -> Integer.compare(nums[b], nums[a])
+        );
+        for(int i=0;i<k;++i){
+            pe.offer(i);
+        }
+        int[] res = new int[nums.length-k+1];
+        int cnt=0;
+        res[cnt++]=nums[pe.peek()];
+        for(int i=k;i<nums.length;++i){
+            pe.offer(i);
+            while( !pe.isEmpty() && Math.abs(pe.peek()-i)+1>k){
+                pe.poll();
+            }
+            res[cnt++]=nums[pe.peek()];
+        }
+        return res;
+    }
+}
+```
+
+#### 简单小根堆 [53. 最大子数组和](https://leetcode.cn/problems/maximum-subarray/description/)
+
+因为连续所以前缀和，因为序列最值，所以转换为差最大。
+
+```java
+// 
+public int maxSubArray(int[] nums) {
+    int ln = nums.length;
+    int[] preSum = new int[ln+10];
+    preSum[0] = 0;
+    // preSum 的 升序（小顶堆）
+    PriorityQueue<Integer> pe = new PriorityQueue<>(
+            (a, b) -> Integer.compare(preSum[a],preSum[b])
+    );
+    pe.offer(0);
+    int ans = nums[0];
+    for(int i = 1; i <= ln; i++){
+        preSum[i] = preSum[i-1] + nums[i-1];
+        if( !pe.isEmpty() ){
+            ans = Math.max(ans, preSum[i] - preSum[pe.peek()]);
+        }
+        pe.offer(i);
+    }
+    return ans;
+}
+```
